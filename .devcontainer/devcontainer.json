@@ -1,0 +1,26 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "React App with Apps Script",
+  "image": "mcr.microsoft.com/devcontainers/universal:latest", // Una imagen base que ya tiene muchas herramientas
+  "features": {
+    // Puedes añadir características para instalar Node.js, etc.
+    "ghcr.io/devcontainers/features/node:1": {} // Instala Node.js
+  },
+  "postCreateCommand": "npm install -g @google/clasp && npm install", // Instala Clasp globalmente y las dependencias de tu proyecto React
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint", // Extensión para ESLint
+        "esbenp.prettier-vscode", // Extensión para Prettier
+        "ms-vscode.js-debug" // Depuración de JS
+      ]
+    }
+  },
+  "forwardPorts": [3000], // Reenvía el puerto 3000 si tu app React se ejecuta allí
+  "portsAttributes": {
+    "3000": {
+      "label": "React App",
+      "onAutoForward": "notify"
+    }
+  }
+}
