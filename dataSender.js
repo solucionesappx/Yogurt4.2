@@ -5,7 +5,7 @@ export const sendDataToGoogleScript = async (data) => {
   // ¡IMPORTANTE! Reemplaza esta URL con la URL de despliegue de tu Google Apps Script.
   // Una vez que despliegues tu script como una aplicación web, obtendrás esta URL.
   // Es crucial que esta URL sea correcta para que la comunicación funcione.
-  const SCRIPT_WEB_APP_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE'; // ¡ACTUALIZA ESTO CON TU URL REAL!
+  const SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyXBzusivCfRDQp8OTKIpW5bxwH0XOxCEQ4QEu_rB9hikN37xeIpAblvC6VkToC9td-3w/exec'; // ¡ACTUALIZA ESTO CON TU URL REAL!
 
   try {
     const response = await fetch(SCRIPT_WEB_APP_URL, {
