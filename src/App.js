@@ -5,8 +5,12 @@ import {
   LogIn, User, ShoppingCart, Home, List, PlusCircle, Edit, Save, XCircle, Key, LogOut, CheckCircle, Info, DollarSign, Package, Tag, Store, Lock, FileText, View
 } from 'lucide-react';
 
-// Importa la función para enviar datos al Google Apps Script
-// ASEGÚRATE de que este archivo 'dataSender.js' esté en la MISMA CARPETA que App.js
+// === INSTRUCCIÓN CRÍTICA DE UBICACIÓN Y NOMBRE DEL ARCHIVO ===
+// Este archivo DEBE llamarse 'App.js' (con 'A' mayúscula y '.js' al final).
+// Asegúrate de que el archivo 'dataSender.js' (que te proporciono a continuación)
+// esté FÍSICAMENTE en la MISMA CARPETA que este archivo 'App.js'.
+// Por ejemplo, si 'App.js' está en 'tu_proyecto/src/App.js',
+// entonces 'dataSender.js' DEBE estar en 'tu_proyecto/src/dataSender.js'.
 import { sendDataToGoogleScript } from './dataSender'; 
 
 // Datos mock para simular las hojas de Google Sheets
@@ -1295,26 +1299,26 @@ const AdminOrdersView = ({ loggedInUser, setCurrentPage, orders, setOrders, setM
       const orderDataForGAS = {
         action: 'generatePdfAndSaveOrder', // Misma acción, Apps Script manejará consolidado vs individual
         // Datos para OrdenesCab
-        Orden_ID: order.Order_ID,
+        Orden_ID: order.Orden_ID,
         Cliente_ID: order.Cliente_ID,
         Cliente_Nombre: order.Cliente_Nombre,
-        Orden_Fecha: order.Order_Date,
-        Orden_Status: order.Status,
-        Orden_Fecha_Despacho: order.Order_Date_Disp || '', 
-        Orden_Fecha_Ult_Mod: order.Last_Mod_Date || '',
+        Orden_Fecha: order.Orden_Fecha,
+        Orden_Status: order.Orden_Status,
+        Orden_Fecha_Despacho: order.Orden_Fecha_Despacho || '', 
+        Orden_Fecha_Ult_Mod: order.Orden_Fecha_Ult_Mod || '',
         isConsolidated: order.isConsolidated || false, // Pasar si es un pedido consolidado
 
         // Datos para OrdenesDet
         Items: order.Items.map(item => {
           const productDetails = getProductDetails(item.Plan_Cat_ID);
           return {
-            Orden_ID: order.Order_ID, 
-            Orden_Fecha: order.Order_Date, 
-            Orden_Pos: item.Position_ID,
+            Orden_ID: item.Orden_ID, 
+            Orden_Fecha: item.Orden_Fecha, 
+            Orden_Pos: item.Orden_Pos,
             Orden_Producto: productDetails?.Plan_Cat_Descripción || 'Producto Desconocido',
             Orden_Cantidad: item.Quantity,
             Orden_Subtotal: (productDetails?.Plan_Cat_Costo * item.Quantity).toFixed(2), 
-            Orden_Total: (order.isConsolidated ? order.Items.reduce((sum, i) => sum + (getProductDetails(i.Plan_Cat_ID)?.Plan_Cat_Costo * i.Quantity), 0) : getProductDetails(item.Plan_Cat_ID)?.Plan_Cat_Costo * item.Quantity).toFixed(2), // Total del pedido o item
+            Orden_Total: (order.isConsolidated ? order.Items.reduce((sum, i) => sum + (getProductDetails(i.Plan_Cat_ID)?.Plan_Cat_Costo * i.Quantity), 0) : (productDetails?.Plan_Cat_Costo * item.Quantity)).toFixed(2), // Total del pedido o item
             Plan_Cat_Presentación: productDetails?.Plan_Cat_Presentación || '', 
             Plan_Cat_Costo_Unitario: productDetails?.Plan_Cat_Costo || 0, 
             Plan_Cat_Moneda: productDetails?.Plan_Cat_Moneda || 'USD',
